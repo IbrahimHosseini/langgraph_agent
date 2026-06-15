@@ -17,6 +17,13 @@ def agent_node(state: AgentState):
 def tool_node(state: AgentState):
     return ToolNode(tools=tools).invoke(state)
 
+def should_continue(state: AgentState):
+    last_message = state["messages"][-1]
+    
+    if last_message.tool_calls:
+        return "continue"
+    return "end"
+
 @tool
 def search_tool(input: str) -> str:
     """Search the web for information about a given topic."""
