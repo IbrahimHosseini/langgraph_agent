@@ -1,4 +1,5 @@
 from langgraph.graph import END, StateGraph
+from langgraph.checkpoint.memory import MemorySaver
 
 from app.agent.nodes import agent_node, should_continue, tool_node
 from app.agent.state import AgentState
@@ -17,4 +18,6 @@ graph.add_conditional_edges(
     {"continue": "tools", "end": END}
 )
 
-app = graph.compile()
+checkpointer = MemorySaver()
+
+app = graph.compile(checkpointer=checkpointer)
