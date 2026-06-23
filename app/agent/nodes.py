@@ -6,16 +6,13 @@ from langgraph.prebuilt import ToolNode
 
 from app.agent.state import AgentState
 
-def agent_node(state: AgentState):
-    llm = ChatOpenAI(temperature=0, api_key=settings.OPENAI_API_KEY)
-    bind = llm.bind_tools(tools=tools)
-    result = bind.invoke(state["messages"])
-    
+llm = ChatOpenAI(temperature=0, api_key=settings.OPENAI_API_KEY).bind_tools(tools=tools)
+tool_node = ToolNode(tools=tools, handle_tool_errors=True)
 
-    return {"messages": [result]}
+def agent_node(state: AgentState):
+    result = llm.invoke(state["messages"])
     
-def tool_node(state: AgentState):
-    return ToolNode(tools=tools).invoke(state)
+    return {"messages": [result]}
 
 def should_continue(state: AgentState):
     last_message = state["messages"][-1]

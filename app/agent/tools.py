@@ -13,7 +13,28 @@ def calculator_tool(expression: str) -> int:
 @tool
 def db_query_tool(query: str) -> str:
     """Query the database for information about a given topic."""
-    return f"nothing to see here {query}"
+    
+    raise Exception("Database connection failed")
 
 
 tools = [search_tool, calculator_tool, db_query_tool]
+
+# tools = [
+#     {
+#         "type": "function",
+#         "function": {
+#             "name": "calculator_tool",
+#             "description": "Perform arithmetic operations on two numbers",
+#             "parameters": {
+#                 "type": "object",
+#                 "properties": {
+#                     "a": {"type": "number", "description": "the first operand"},
+#                     "b": {"type": "number", "description": "the second operand"},
+#                     "operator": {"type": "string", "description": "the arithmetic operator to apply", "enum": ["+", "-", "*", "/"]}
+#                 },
+#                 "required": ["a", "b", "operator"]
+#             }
+#         }
+#     }
+# ]
+
